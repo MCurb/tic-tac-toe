@@ -12,9 +12,16 @@ function GameBoard() {
     [0, 4, 8], // diagonal TL to BR
     [2, 4, 6], // diagonal TR to BL
   ];
+  let winner = false;
+  let gameWinner;
+  let correctInput = true;
   const getChoice = (playerMarker, position) => {
     if (board[position] === undefined) {
       board[position] = playerMarker;
+      correctInput = true;
+    } else if (board[position] !== undefined) {
+      console.log("Ocuppied Position, Try again");
+      correctInput = false;
     } else {
       console.log("Something's wrong");
       return;
@@ -30,12 +37,23 @@ function GameBoard() {
         board[a] === playerMarker &&
         board[b] === playerMarker &&
         board[c] === playerMarker
-      )
-        console.log(`${playerName} wins`);
+      ) {
+        winner = true;
+        gameWinner = playerName;
+        break;
+      }
     }
   };
 
-  return { getChoice, checkWinner };
+  const getWinnerInfo = () => {
+    return { winner, gameWinner };
+  };
+
+  const checkInput = () => {
+    return correctInput;
+  };
+
+  return { getChoice, checkWinner, getWinnerInfo, checkInput };
 }
 
 // Create the player objects
@@ -53,25 +71,33 @@ const player2 = createPlayer(user2, "O");
 const game = GameBoard();
 const choices = game.getChoice;
 const checkWinners = game.checkWinner;
+const gameWinnerInfo = game.getWinnerInfo;
+const checkInput = game.checkInput;
 
 // Switch player turns
 function switchTurn() {
   let justPlayed = false;
   for (let i = 0; i <= 8; i++) {
-    if (justPlayed === false) {
-      choices(
-        player1.marker,
-        prompt(`${player1.name} choose a position`, "0-8")
-      );
-      checkWinners(player1.name, player1.marker);
-      justPlayed = true;
-    } else if (justPlayed === true) {
-      choices(
-        player2.marker,
-        prompt(`${player2.name} choose a position`, "0-8")
-      );
-      checkWinners(player2.name, player2.marker);
-      justPlayed = false;
+    if (justPlayed === false && gameWinnerInfo().winner === false) {
+      do {
+        choices(
+          player1.marker,
+          prompt(`${player1.name} choose a position`, "0-8")
+        );
+        checkWinners(player1.name, player1.marker);
+        justPlayed = true;
+      } while (checkInput() === false);
+    } else if (justPlayed === true && gameWinnerInfo().winner === false) {
+      do {
+        choices(
+          player2.marker,
+          prompt(`${player2.name} choose a position`, "0-8")
+        );
+        checkWinners(player2.name, player2.marker);
+        justPlayed = false;
+      } while (checkInput() === false);
+    } else if (gameWinnerInfo().winner === true) {
+      console.log(`${gameWinnerInfo().gameWinner} winns`);
     }
   }
 }
