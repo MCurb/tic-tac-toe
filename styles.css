@@ -1,4 +1,21 @@
 body {
-    background-color: rgb(31, 30, 30);
+    background-color: rgb(49, 44, 44);
     color: white;
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: max-content max-content max-content;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.game-grid div {
+    padding: 15px;
+    background-color: white;
+    color: black;
+}
+
+div:hover {
+    cursor: pointer;
 }
