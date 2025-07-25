@@ -112,27 +112,26 @@ const checkInput = gameBoard.checkInput;
 
 // If an occupied square gets selected alert the user, and do nothing, waiting for another choice
 
- const switchTurn = (function() {
+const switchTurn = (function () {
   let justPlayed = false;
   let timesPlayed = 0;
-  return function(position) {
+  return function (position) {
     if (gameBoard.checkInput() && justPlayed === false) {
-    choices(player1.marker, position)
-    updateDOM()
-    checkWinner(player1.name, player1.marker, timesPlayed)
-    justPlayed = true;
-    timesPlayed++
-    console.log(timesPlayed)
-  } else if (gameBoard.checkInput() && justPlayed) {
-    choices(player2.marker, position)
-    updateDOM()
-    checkWinner(player2.name, player2.marker, timesPlayed)
-    justPlayed = false;
-    timesPlayed++
-    console.log(timesPlayed)
-  }
-  }
-  
+      choices(player1.marker, position);
+      updateDOM();
+      checkWinner(player1.name, player1.marker, timesPlayed);
+      justPlayed = true;
+      timesPlayed++;
+      console.log(timesPlayed);
+    } else if (gameBoard.checkInput() && justPlayed) {
+      choices(player2.marker, position);
+      updateDOM();
+      checkWinner(player2.name, player2.marker, timesPlayed);
+      justPlayed = false;
+      timesPlayed++;
+      console.log(timesPlayed);
+    }
+  };
 })();
 
 const divs = document.querySelectorAll(".game-grid div");
@@ -150,22 +149,22 @@ gridContainer.addEventListener("click", eventHandler);
 function eventHandler(event) {
   if (event.target.matches(".square1")) {
     console.log(event.target);
-    switchTurn(0)
+    switchTurn(0);
   } else if (event.target.matches(".square2")) {
-    switchTurn(1)
+    switchTurn(1);
   } else if (event.target.matches(".square3")) {
-    switchTurn(2)
+    switchTurn(2);
   } else if (event.target.matches(".square4")) {
-    switchTurn(3)
+    switchTurn(3);
   } else if (event.target.matches(".square5")) {
-    switchTurn(4)
+    switchTurn(4);
   } else if (event.target.matches(".square6")) {
-    switchTurn(5)
+    switchTurn(5);
   } else if (event.target.matches(".square7")) {
-    switchTurn(6)
+    switchTurn(6);
   } else if (event.target.matches(".square8")) {
-    switchTurn(7)
+    switchTurn(7);
   } else if (event.target.matches(".square9")) {
-    switchTurn(8)
-  } 
+    switchTurn(8);
+  }
 }
