@@ -30,7 +30,7 @@ function GameBoard() {
     console.log(board);
   };
 
-  const checkWinner = (playerName, playerMarker) => {
+  const checkWinner = (playerName, playerMarker, boardPosition) => {
     for (let combo of winningCombos) {
       const [a, b, c] = combo;
       if (
@@ -41,8 +41,10 @@ function GameBoard() {
         winner = true;
         gameWinner = playerName;
         break;
+      } else if (boardPosition === 8) {
+        console.log("Game is tied")
       }
-    }
+    } 
   };
 
   const getWinnerInfo = () => {
@@ -84,7 +86,7 @@ function switchTurn() {
           player1.marker,
           prompt(`${player1.name} choose a position`, "0-8")
         );
-        checkWinners(player1.name, player1.marker);
+        checkWinners(player1.name, player1.marker, i);
         justPlayed = true;
       } while (checkInput() === false);
     } else if (justPlayed === true && gameWinnerInfo().winner === false) {
@@ -93,7 +95,7 @@ function switchTurn() {
           player2.marker,
           prompt(`${player2.name} choose a position`, "0-8")
         );
-        checkWinners(player2.name, player2.marker);
+        checkWinners(player2.name, player2.marker, i);
         justPlayed = false;
       } while (checkInput() === false);
     } else if (gameWinnerInfo().winner === true) {
