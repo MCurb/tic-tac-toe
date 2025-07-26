@@ -69,10 +69,8 @@ const gameBoard = (function () {
 function createPlayer(name, marker) {
   return { name, marker };
 }
-const user1 = prompt("Hey what's your name?", "player1");
-const user2 = prompt("Hey what about yours?", "player2");
-const player1 = createPlayer(user1, "X");
-const player2 = createPlayer(user2, "O");
+const player1 = createPlayer("Player 1", "X");
+const player2 = createPlayer("Player 2", "O");
 
 // Work with the closures
 const choices = gameBoard.getChoice;

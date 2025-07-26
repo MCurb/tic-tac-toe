@@ -1,28 +1,200 @@
+/* CSS Moder Reset */
+
+/* 1. Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
 body {
-    background-color: rgb(49, 44, 44);
-    color: white;
+  /* 4. Add accessible line-height */
+  line-height: 1.5;
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 6. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+
+html {
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  height: 100%;
+  background-color: #f8f9fa;
+  color: black;
+  font-family: "Montserrat";
 }
 
 h1 {
-    font-size: 42px;
+  color: hsl(212, 33%, 31%);
+  text-shadow: 4px 4px #fc5185;
+  font-size: 56px;
 }
 
 .game-grid {
-    display: grid;
-    grid-template-columns: max-content max-content max-content;
-    grid-template-rows: 1fr 1fr 1fr;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 12px;
 }
 
 .game-grid div {
-    padding: 15px;
-    width: 80px;
-    height: 80px;
-    font-size: 40px;
-    background-color: white;
-    color: black;
+  padding: 16px;
+  width: 116px;
+  height: 116px;
+  font-size: 48px;
+  border-radius: 12px;
+  background-color: hsl(212, 33%, 31%);
+  color: hsl(210, 11%, 91%);
+  transition: all 0.3s ease;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-div:hover {
-    cursor: pointer;
+.game-grid div:hover {
+  cursor: pointer;
+  scale: 1.08;
+  background-color: hsl(212, 33%, 35%);
+}
+
+.game-grid div:active {
+  scale: 0.85;
+}
+
+.buttons-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 60px;
+}
+
+button {
+  border: none;
+  padding: 4px 8px;
+  width: 140px;
+  height: 48px;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 4px;
+  color: white;
+  font-weight: 800;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.ai-btn {
+  background-color: #fc5185;
+  padding: 4px 8px;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  place-content: center;
+  gap: 8px;
+}
+
+.player-btn {
+  background-color: #364f6b;
+  display: grid;
+  grid-template-rows: 1fr max-content;
+}
+
+.player-btn img {
+  place-self: center;
+}
+
+.restart-btn {
+  background-color: #fc5185;
+  font-size: 16px;
+}
+
+.switch-turn-container {
+  display: grid;
+  gap: 4px;
+}
+
+.turn-text {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.turn-box-container {
+  display: flex;
+}
+
+.turn-x,
+.turn-o {
+  width: 100%;
+  border: 2px solid black;
+  padding: 12px 20px;
+  font-weight: 700;
+  font-size: 20px;
 }

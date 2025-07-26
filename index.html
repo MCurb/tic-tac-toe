@@ -6,9 +6,27 @@
     <title>Tic Tac Toe</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="javascript.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1>What's up bro</h1>
+    <h1>Tic Tac Toe</h1>
+    <div class="buttons-container">
+      <button class="ai-btn">AI Bot <img src="svg-icons/android_18dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.svg" alt=""></button>
+      <button class="player-btn">Two Players <img src="svg-icons/group_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20.svg" alt=""></button>
+    </div>
+    <div class="switch-turn-container">
+      <div class="turn-text">Turn for:</div>
+      <div class="turn-box-container">
+        <div class="turn-x">X</div>
+        <div class="turn-o">O</div>
+      </div>
+    </div>
+
     <div class="game-grid">
       <div class="square1"></div>
       <div class="square2"></div>
@@ -20,5 +38,6 @@
       <div class="square8"></div>
       <div class="square9"></div>
     </div>
+    <button class="restart-btn">Restart</button>
   </body>
 </html>
