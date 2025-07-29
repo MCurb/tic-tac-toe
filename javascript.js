@@ -3,6 +3,8 @@ const winnerMessage = document.createElement("p");
 const restartBtn = document.querySelector(".restart-btn");
 const divs = document.querySelectorAll(".game-grid div");
 body.insertBefore(winnerMessage, restartBtn);
+const xTurn = document.querySelector(".turn-x");
+const oTurn = document.querySelector(".turn-o");
 // Get the players choice and put it in the board array
 const gameBoard = (function () {
   let board = [];
@@ -52,7 +54,7 @@ const gameBoard = (function () {
         winnerMessage.classList.add("winner-message");
         winnerMessage.textContent = `${playerName} wins!`;
         break;
-      } else if (timesPlayed === 9) {
+      } else if (timesPlayed === 9 && combo === winningCombos[7]) {
         winnerMessage.classList.add("tied-message");
         winnerMessage.textContent = "Game is tied!";
         divs.forEach((div) => {
@@ -138,6 +140,7 @@ const checkInput = gameBoard.checkInput;
 const switchTurn = (function () {
   let justPlayed = false;
   let timesPlayed = 0;
+  xTurn.classList.add("active-turn");
   return function (position) {
     if (
       gameBoard.checkInput() &&
@@ -146,9 +149,11 @@ const switchTurn = (function () {
     ) {
       choices(player1.marker, position);
       if (gameBoard.checkInput()) {
-        checkWinner(player1.name, player1.marker, timesPlayed);
+        oTurn.classList.add("active-turn");
+        xTurn.classList.remove("active-turn");
         updateDOM();
         timesPlayed++;
+        checkWinner(player1.name, player1.marker, timesPlayed);
         justPlayed = true;
         console.log(timesPlayed);
         console.log(gameBoard.checkInput());
@@ -163,9 +168,11 @@ const switchTurn = (function () {
     ) {
       choices(player2.marker, position);
       if (gameBoard.checkInput()) {
-        checkWinner(player2.name, player2.marker, timesPlayed);
+        xTurn.classList.add("active-turn");
+        oTurn.classList.remove("active-turn");
         updateDOM();
         timesPlayed++;
+        checkWinner(player2.name, player2.marker, timesPlayed);
         justPlayed = false;
         console.log(timesPlayed);
         console.log(gameBoard.checkInput());
@@ -189,7 +196,6 @@ gridContainer.addEventListener("click", eventHandler);
 
 function eventHandler(event) {
   if (event.target.matches(".square1")) {
-    console.log(event.target);
     switchTurn(0);
   } else if (event.target.matches(".square2")) {
     switchTurn(1);

@@ -213,8 +213,29 @@ button:hover {
 .turn-x,
 .turn-o {
   width: 100%;
-  border: 2px solid black;
+  border: 3px solid #364f6b;
   padding: 12px 20px;
   font-weight: 700;
   font-size: 20px;
+  transition: all 0.25s ease;
+}
+
+.turn-x {
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+}
+
+.turn-o {
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+}
+
+.active-turn {
+  background-color: #364f6b;
+  color: white;
+}
+
+.stop-turns {
+  background-color: #22c55e;
+  color: black;
 }
