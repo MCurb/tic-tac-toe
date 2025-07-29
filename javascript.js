@@ -125,7 +125,11 @@ const switchTurn = (function () {
   let justPlayed = false;
   let timesPlayed = 0;
   return function (position) {
-    if (gameBoard.checkInput() && justPlayed === false) {
+    if (
+      gameBoard.checkInput() &&
+      justPlayed === false &&
+      gameBoard.getWinnerInfo() === false
+    ) {
       choices(player1.marker, position);
       if (gameBoard.checkInput()) {
         updateDOM();
@@ -138,7 +142,11 @@ const switchTurn = (function () {
       } else {
         gameBoard.changeInput();
       }
-    } else if (gameBoard.checkInput() && justPlayed) {
+    } else if (
+      gameBoard.checkInput() &&
+      justPlayed &&
+      gameBoard.getWinnerInfo() === false
+    ) {
       choices(player2.marker, position);
       if (gameBoard.checkInput()) {
         updateDOM();
