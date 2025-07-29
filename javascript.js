@@ -146,9 +146,9 @@ const switchTurn = (function () {
     ) {
       choices(player1.marker, position);
       if (gameBoard.checkInput()) {
+        checkWinner(player1.name, player1.marker, timesPlayed);
         updateDOM();
         timesPlayed++;
-        checkWinner(player1.name, player1.marker, timesPlayed);
         justPlayed = true;
         console.log(timesPlayed);
         console.log(gameBoard.checkInput());
@@ -163,9 +163,9 @@ const switchTurn = (function () {
     ) {
       choices(player2.marker, position);
       if (gameBoard.checkInput()) {
+        checkWinner(player2.name, player2.marker, timesPlayed);
         updateDOM();
         timesPlayed++;
-        checkWinner(player2.name, player2.marker, timesPlayed);
         justPlayed = false;
         console.log(timesPlayed);
         console.log(gameBoard.checkInput());
