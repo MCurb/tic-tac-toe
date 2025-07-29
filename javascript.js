@@ -1,3 +1,8 @@
+const body = document.querySelector("body");
+const winnerMessage = document.createElement("p");
+const restartBtn = document.querySelector(".restart-btn");
+const divs = document.querySelectorAll(".game-grid div");
+body.insertBefore(winnerMessage, restartBtn);
 // Get the players choice and put it in the board array
 const gameBoard = (function () {
   let board = [];
@@ -40,10 +45,19 @@ const gameBoard = (function () {
         board[c] === playerMarker
       ) {
         winner = true;
-        alert(`${playerName} wins`);
+        divs[a].classList.add("winner-div");
+        divs[b].classList.add("winner-div");
+        divs[c].classList.add("winner-div");
+
+        winnerMessage.classList.add("winner-message");
+        winnerMessage.textContent = `${playerName} wins!`;
         break;
       } else if (timesPlayed === 9) {
-        alert("Game is tied");
+        winnerMessage.classList.add("tied-message");
+        winnerMessage.textContent = "Game is tied!";
+        divs.forEach((div) => {
+          div.classList.add("draw");
+        });
         break;
       }
     }
@@ -163,9 +177,7 @@ const switchTurn = (function () {
   };
 })();
 
-const divs = document.querySelectorAll(".game-grid div");
 function updateDOM() {
-  const body = document.querySelector("body");
   for (let i = 0; i <= 8; i++) {
     divs[i].textContent = gameBoard.getBoardContent()[i];
   }
