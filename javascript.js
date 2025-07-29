@@ -42,7 +42,7 @@ const gameBoard = (function () {
         winner = true;
         alert(`${playerName} wins`);
         break;
-      } else if (timesPlayed === 8) {
+      } else if (timesPlayed === 9) {
         alert("Game is tied");
         break;
       }
@@ -61,7 +61,18 @@ const gameBoard = (function () {
     return board;
   };
 
-  return { getChoice, checkWinner, getWinnerInfo, checkInput, getBoardContent };
+  const changeInput = () => {
+    correctInput = true;
+  };
+
+  return {
+    getChoice,
+    checkWinner,
+    getWinnerInfo,
+    checkInput,
+    getBoardContent,
+    changeInput,
+  };
 })();
 
 // Create the player objects
@@ -116,18 +127,30 @@ const switchTurn = (function () {
   return function (position) {
     if (gameBoard.checkInput() && justPlayed === false) {
       choices(player1.marker, position);
-      updateDOM();
-      checkWinner(player1.name, player1.marker, timesPlayed);
-      justPlayed = true;
-      timesPlayed++;
-      console.log(timesPlayed);
+      if (gameBoard.checkInput()) {
+        updateDOM();
+        timesPlayed++;
+        checkWinner(player1.name, player1.marker, timesPlayed);
+        justPlayed = true;
+        console.log(timesPlayed);
+        console.log(gameBoard.checkInput());
+        console.log(justPlayed);
+      } else {
+        gameBoard.changeInput();
+      }
     } else if (gameBoard.checkInput() && justPlayed) {
       choices(player2.marker, position);
-      updateDOM();
-      checkWinner(player2.name, player2.marker, timesPlayed);
-      justPlayed = false;
-      timesPlayed++;
-      console.log(timesPlayed);
+      if (gameBoard.checkInput()) {
+        updateDOM();
+        timesPlayed++;
+        checkWinner(player2.name, player2.marker, timesPlayed);
+        justPlayed = false;
+        console.log(timesPlayed);
+        console.log(gameBoard.checkInput());
+        console.log(justPlayed);
+      } else {
+        gameBoard.changeInput();
+      }
     }
   };
 })();
