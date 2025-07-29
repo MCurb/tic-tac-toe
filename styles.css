@@ -166,6 +166,7 @@ button {
   border-radius: 4px;
   color: white;
   font-weight: 800;
+  transition: all 0.2s ease;
 }
 
 button:hover {
@@ -173,7 +174,7 @@ button:hover {
 }
 
 .ai-btn {
-  background-color: #fc5185;
+  background-color: hsl(342, 97%, 65%);
   padding: 4px 8px;
   display: grid;
   grid-template-columns: max-content max-content;
@@ -181,10 +182,28 @@ button:hover {
   gap: 8px;
 }
 
+.ai-btn:hover {
+  background-color: hsl(342, 97%, 71%);
+}
+
+.ai-btn:active {
+  scale: 0.93;
+  background-color: hsl(342, 97%, 74%);
+}
+
 .player-btn {
-  background-color: #364f6b;
+  background-color: hsl(212, 33%, 32%);
   display: grid;
   grid-template-rows: 1fr max-content;
+}
+
+.player-btn:hover {
+  background-color: hsl(212, 33%, 38%);
+}
+
+.player-btn:active {
+  scale: 0.93;
+  background-color: hsl(212, 33%, 43%);
 }
 
 .player-btn img {

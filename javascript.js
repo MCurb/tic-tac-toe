@@ -20,6 +20,7 @@ const gameBoard = (function () {
   ];
   let winner = false;
   let correctInput = true;
+  let gameTied = false;
 
   // Validate users choice
   const getChoice = (playerMarker, position) => {
@@ -60,6 +61,7 @@ const gameBoard = (function () {
         divs.forEach((div) => {
           div.classList.add("draw");
         });
+        gameTied = true;
         break;
       }
     }
@@ -67,6 +69,10 @@ const gameBoard = (function () {
 
   const getWinnerInfo = () => {
     return winner;
+  };
+
+  const getGameStatus = () => {
+    return gameTied;
   };
 
   const checkInput = () => {
@@ -88,6 +94,7 @@ const gameBoard = (function () {
     checkInput,
     getBoardContent,
     changeInput,
+    getGameStatus,
   };
 })();
 
@@ -98,12 +105,15 @@ function createPlayer(name, marker) {
 }
 const player1 = createPlayer("Player 1", "X");
 const player2 = createPlayer("Player 2", "O");
+const human = createPlayer("Human", "X");
+const cpu = createPlayer("AI", "O");
 
 // Work with the closures
 const choices = gameBoard.getChoice;
 const checkWinner = gameBoard.checkWinner;
 const gameWinnerInfo = gameBoard.getWinnerInfo;
 const checkInput = gameBoard.checkInput;
+const gameStatus = gameBoard.getGameStatus;
 
 // Switch player turns
 // function switchTurn(positionChoice) {
@@ -137,7 +147,7 @@ const checkInput = gameBoard.checkInput;
 
 // If an occupied square gets selected alert the user, and do nothing, waiting for another choice
 
-const switchTurn = (function () {
+const switchTurnPlayers = (function () {
   let justPlayed = false;
   let timesPlayed = 0;
   xTurn.classList.add("active-turn");
@@ -184,6 +194,55 @@ const switchTurn = (function () {
   };
 })();
 
+const switchTurnAi = (function () {
+  let justPlayed = false;
+  let timesPlayed = 0;
+  xTurn.classList.add("active-turn");
+  return function (position) {
+    if (
+      gameBoard.checkInput() &&
+      justPlayed === false &&
+      gameBoard.getWinnerInfo() === false
+    ) {
+      choices(human.marker, position);
+      if (gameBoard.checkInput()) {
+        oTurn.classList.add("active-turn");
+        xTurn.classList.remove("active-turn");
+        updateDOM();
+        timesPlayed++;
+        checkWinner(human.name, human.marker, timesPlayed);
+        justPlayed = true;
+        switchTurnAi(Math.floor(Math.random() * 9));
+        console.log(timesPlayed);
+        console.log(gameBoard.checkInput());
+        console.log(justPlayed);
+      } else {
+        gameBoard.changeInput();
+      }
+    } else if (
+      gameBoard.checkInput() &&
+      justPlayed &&
+      gameBoard.getWinnerInfo() === false
+    ) {
+      choices(cpu.marker, position);
+      if (gameBoard.checkInput()) {
+        xTurn.classList.add("active-turn");
+        oTurn.classList.remove("active-turn");
+        updateDOM();
+        timesPlayed++;
+        checkWinner(cpu.name, cpu.marker, timesPlayed);
+        justPlayed = false;
+        console.log(timesPlayed);
+        console.log(gameBoard.checkInput());
+        console.log(justPlayed);
+      } else if (gameStatus() === false && gameBoard.checkInput() === false) {
+        gameBoard.changeInput();
+        switchTurnAi(Math.floor(Math.random() * 9));
+      }
+    }
+  };
+})();
+
 function updateDOM() {
   for (let i = 0; i <= 8; i++) {
     divs[i].textContent = gameBoard.getBoardContent()[i];
@@ -192,26 +251,58 @@ function updateDOM() {
 
 const gridContainer = document.querySelector(".game-grid");
 
-gridContainer.addEventListener("click", eventHandler);
-
-function eventHandler(event) {
+function playersEventHandler(event) {
   if (event.target.matches(".square1")) {
-    switchTurn(0);
+    switchTurnPlayers(0);
   } else if (event.target.matches(".square2")) {
-    switchTurn(1);
+    switchTurnPlayers(1);
   } else if (event.target.matches(".square3")) {
-    switchTurn(2);
+    switchTurnPlayers(2);
   } else if (event.target.matches(".square4")) {
-    switchTurn(3);
+    switchTurnPlayers(3);
   } else if (event.target.matches(".square5")) {
-    switchTurn(4);
+    switchTurnPlayers(4);
   } else if (event.target.matches(".square6")) {
-    switchTurn(5);
+    switchTurnPlayers(5);
   } else if (event.target.matches(".square7")) {
-    switchTurn(6);
+    switchTurnPlayers(6);
   } else if (event.target.matches(".square8")) {
-    switchTurn(7);
+    switchTurnPlayers(7);
   } else if (event.target.matches(".square9")) {
-    switchTurn(8);
+    switchTurnPlayers(8);
+  }
+}
+
+function aiEventHandler(event) {
+  if (event.target.matches(".square1")) {
+    switchTurnAi(0);
+  } else if (event.target.matches(".square2")) {
+    switchTurnAi(1);
+  } else if (event.target.matches(".square3")) {
+    switchTurnAi(2);
+  } else if (event.target.matches(".square4")) {
+    switchTurnAi(3);
+  } else if (event.target.matches(".square5")) {
+    switchTurnAi(4);
+  } else if (event.target.matches(".square6")) {
+    switchTurnAi(5);
+  } else if (event.target.matches(".square7")) {
+    switchTurnAi(6);
+  } else if (event.target.matches(".square8")) {
+    switchTurnAi(7);
+  } else if (event.target.matches(".square9")) {
+    switchTurnAi(8);
+  }
+}
+
+body.addEventListener("click", clickedBtnHandler);
+
+function clickedBtnHandler(event) {
+  if (event.target.matches(".ai-btn")) {
+    gridContainer.removeEventListener("click", playersEventHandler);
+    gridContainer.addEventListener("click", aiEventHandler);
+  } else if (event.target.matches(".player-btn")) {
+    gridContainer.removeEventListener("click", aiEventHandler);
+    gridContainer.addEventListener("click", playersEventHandler);
   }
 }
