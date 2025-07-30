@@ -337,6 +337,18 @@ function resetAiMode() {
   gridContainer.removeEventListener("click", aiEventHandler);
 }
 
+function fixStickyActiveState(gridSelector) {
+  divs.forEach((div) => {
+    div.addEventListener("touchend", () => {
+      div.classList.add("no-active");
+
+      //Force reflow to make sure the style gets applied
+      void div.offsetWidth;
+      div.classList.remove("no-active")
+    })
+  })
+}
+
 /* ================================
    5. EVENT HANDLERS
 ================================ */
@@ -439,3 +451,5 @@ gridContainer.addEventListener("click", selectModeHandler);
 /* ===================================
 7. INITIALIZATION
 =================================== */
+
+fixStickyActiveState(".game-grid div")

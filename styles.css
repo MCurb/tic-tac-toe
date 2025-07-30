@@ -146,6 +146,10 @@ h1 {
   transform: scale(0.85);
 }
 
+.game-grid div.no-active {
+  transform: none !important;
+}
+
 .game-grid .winner-div {
   background-color: #22c55e;
   border: none;
