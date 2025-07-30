@@ -215,6 +215,10 @@ button:hover {
   background-color: hsl(212, 33%, 43%);
 }
 
+.jump {
+  transform: scale(1.15);
+}
+
 .player-btn img {
   place-self: center;
 }

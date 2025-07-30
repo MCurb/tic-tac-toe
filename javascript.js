@@ -215,7 +215,6 @@ const switchTurnAi = (function () {
   };
 })();
 
-
 /* ================================
 3. PURE LOGIC FUNCTIONS
 ================================ */
@@ -249,18 +248,49 @@ function updateDOM() {
   }
 }
 
+function jumpBtns() {
+  aiBtn.classList.add("jump");
+  setTimeout(() => aiBtn.classList.remove("jump"), 500);
+  playerBtn.classList.add("jump");
+  setTimeout(() => playerBtn.classList.remove("jump"), 500);
+}
+
 /* ================================
    5. EVENT HANDLERS
 ================================ */
 
+function selectModeHandler(event) {
+  if (event.target.matches(".square1")) {
+    jumpBtns();
+  } else if (event.target.matches(".square2")) {
+    jumpBtns();
+  } else if (event.target.matches(".square3")) {
+    jumpBtns();
+  } else if (event.target.matches(".square4")) {
+    jumpBtns();
+  } else if (event.target.matches(".square5")) {
+    jumpBtns();
+  } else if (event.target.matches(".square6")) {
+    jumpBtns();
+  } else if (event.target.matches(".square7")) {
+    jumpBtns();
+  } else if (event.target.matches(".square8")) {
+    jumpBtns();
+  } else if (event.target.matches(".square9")) {
+    jumpBtns();
+  }
+}
+
 function clickedBtnHandler(event) {
   if (event.target.closest(".ai-btn")) {
+    gridContainer.removeEventListener("click", selectModeHandler);
     gridContainer.removeEventListener("click", playersEventHandler);
     gridContainer.addEventListener("click", aiEventHandler);
 
     playerBtn.classList.remove("active-game");
     aiBtn.classList.add("active-game");
   } else if (event.target.closest(".player-btn")) {
+    gridContainer.removeEventListener("click", selectModeHandler);
     gridContainer.removeEventListener("click", aiEventHandler);
     gridContainer.addEventListener("click", playersEventHandler);
 
@@ -318,28 +348,10 @@ function aiEventHandler(event) {
 ================================ */
 
 body.addEventListener("click", clickedBtnHandler);
-
+gridContainer.addEventListener("click", selectModeHandler);
 
 /* ===================================
 7. INITIALIZATION
 =================================== */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Create a function that can create a new grid when called by the two game mode and restart buttons. And that gets called for the first time by one of the game mode btns
