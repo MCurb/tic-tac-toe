@@ -140,11 +140,13 @@ h1 {
     transform: scale(1.08);
     background-color: hsl(212, 33%, 35%);
   }
-}
 
-.game-grid div:not(.winner-div):active {
+  .game-grid div:not(.winner-div):active {
   transform: scale(0.85);
 }
+}
+
+
 
 .game-grid div:not(.winner-div).active-tap {
   transform: scale(0.85);
