@@ -300,13 +300,13 @@ function aiEventHandler(event) {
 body.addEventListener("click", clickedBtnHandler);
 
 function clickedBtnHandler(event) {
-  if (event.target.matches(".ai-btn")) {
+  if (event.target.closest(".ai-btn")) {
     gridContainer.removeEventListener("click", playersEventHandler);
     gridContainer.addEventListener("click", aiEventHandler);
     
     playerBtn.classList.remove("active-game")
     aiBtn.classList.add("active-game")
-  } else if (event.target.matches(".player-btn")) {
+  } else if (event.target.closest(".player-btn")) {
     gridContainer.removeEventListener("click", aiEventHandler);
     gridContainer.addEventListener("click", playersEventHandler);
 
