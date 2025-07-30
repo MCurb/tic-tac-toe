@@ -337,14 +337,18 @@ function resetAiMode() {
   gridContainer.removeEventListener("click", aiEventHandler);
 }
 
-function fixStickyActiveState() {
+function handleTapEffec() {
   divs.forEach((div) => {
-    div.addEventListener("touchend", () => {
-      div.classList.add("no-active");
+    div.addEventListener("touchstart", () => {
+      div.classList.add("active-tap")
+    })
 
-      //Force reflow to make sure the style gets applied
-      void div.offsetWidth;
-      div.classList.remove("no-active")
+     div.addEventListener("touchend", () => {
+      div.classList.remove("active-tap")
+    })
+
+     div.addEventListener("touchcancel", () => {
+      div.classList.remove("active-tap")
     })
   })
 }
@@ -452,4 +456,4 @@ gridContainer.addEventListener("click", selectModeHandler);
 7. INITIALIZATION
 =================================== */
 
-fixStickyActiveState()
+handleTapEffec()

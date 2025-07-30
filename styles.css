@@ -146,8 +146,8 @@ h1 {
   transform: scale(0.85);
 }
 
-.game-grid div.no-active {
-  transform: none !important;
+.game-grid div:not(.winner-div).active-tap {
+  transform: scale(0.85);
 }
 
 .game-grid .winner-div {
