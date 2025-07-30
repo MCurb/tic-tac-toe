@@ -110,6 +110,9 @@ h1 {
 }
 
 .game-grid div {
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+  touch-action: manipulation;
   width: 108px;
   height: 108px;
   font-size: 48px;
@@ -124,10 +127,19 @@ h1 {
   transition: all 0.3s ease;
 }
 
-.game-grid div:not(.winner-div, .draw):hover {
+/* .game-grid div:not(.winner-div, .draw):hover {
   cursor: pointer;
   transform: scale(1.08);
   background-color: hsl(212, 33%, 35%);
+} */
+
+/* Only apply hover effects on devices that actually support hover */
+@media (hover: hover) and (pointer: fine) {
+  .game-grid div:not(.winner-div, .draw):hover {
+    cursor: pointer;
+    transform: scale(1.08);
+    background-color: hsl(212, 33%, 35%);
+  }
 }
 
 .game-grid div:not(.winner-div):active {
