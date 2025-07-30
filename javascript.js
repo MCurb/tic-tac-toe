@@ -102,6 +102,13 @@ const gameBoard = (function () {
     correctInput = true;
   };
 
+  const resetBoard = () => {
+    board = [];
+    winner = false;
+    gameTied = false;
+    correctInput = true;
+  };
+
   return {
     getChoice,
     checkWinner,
@@ -110,6 +117,7 @@ const gameBoard = (function () {
     getBoardContent,
     changeInput,
     getGameStatus,
+    resetBoard,
   };
 })();
 
@@ -119,11 +127,11 @@ const gameBoard = (function () {
 
 // If an occupied square gets selected alert the user, and do nothing, waiting for another choice
 
-const switchTurnPlayers = (function () {
+const switchTurnPlayer = (function () {
   let justPlayed = false;
   let timesPlayed = 0;
   xTurn.classList.add("active-turn");
-  return function (position) {
+  const switchTurn = (position) => {
     if (
       gameBoard.checkInput() &&
       justPlayed === false &&
@@ -164,13 +172,19 @@ const switchTurnPlayers = (function () {
       }
     }
   };
+  const reset = () => {
+    justPlayed = false;
+    timesPlayed = 0;
+  };
+
+  return { switchTurn, reset };
 })();
 
-const switchTurnAi = (function () {
+const switchTurnAI = (function () {
   let justPlayed = false;
   let timesPlayed = 0;
   xTurn.classList.add("active-turn");
-  return function (position) {
+  const switchTurn = (position) => {
     if (
       gameBoard.checkInput() &&
       justPlayed === false &&
@@ -213,6 +227,15 @@ const switchTurnAi = (function () {
       }
     }
   };
+  const reset = () => {
+    justPlayed = false;
+    timesPlayed = 0;
+  };
+
+  return {
+    switchTurn,
+    reset,
+  };
 })();
 
 /* ================================
@@ -237,6 +260,13 @@ const checkWinner = gameBoard.checkWinner;
 const gameWinnerInfo = gameBoard.getWinnerInfo;
 const checkInput = gameBoard.checkInput;
 const gameStatus = gameBoard.getGameStatus;
+const resetBoard = gameBoard.resetBoard;
+
+const switchTurnPlayers = switchTurnPlayer.switchTurn;
+const resetPlayers = switchTurnPlayer.reset;
+
+const switchTurnAi = switchTurnAI.switchTurn;
+const resetAi = switchTurnAI.reset;
 
 /* ================================
 4. DOM UPDATE FUNCTIONS
@@ -253,6 +283,25 @@ function jumpBtns() {
   setTimeout(() => aiBtn.classList.remove("jump"), 500);
   playerBtn.classList.add("jump");
   setTimeout(() => playerBtn.classList.remove("jump"), 500);
+}
+
+function restartGame() {
+  resetBoard();
+  updateDOM();
+  resetPlayers();
+  resetAi();
+  divs.forEach((div) => {
+    div.classList.remove("winner-div", "draw");
+  });
+  winnerMessage.classList.remove("winner-message", "tied-message");
+  winnerMessage.textContent = "";
+  playerBtn.classList.remove("active-game");
+  aiBtn.classList.remove("active-game");
+  xTurn.classList.add("active-turn");
+  oTurn.classList.remove("active-turn");
+  gridContainer.removeEventListener("click", aiEventHandler);
+  gridContainer.removeEventListener("click", playersEventHandler);
+  gridContainer.addEventListener("click", selectModeHandler);
 }
 
 /* ================================
@@ -296,6 +345,8 @@ function clickedBtnHandler(event) {
 
     aiBtn.classList.remove("active-game");
     playerBtn.classList.add("active-game");
+  } else if (event.target.matches(".restart-btn")) {
+    restartGame();
   }
 }
 
@@ -353,5 +404,3 @@ gridContainer.addEventListener("click", selectModeHandler);
 /* ===================================
 7. INITIALIZATION
 =================================== */
-
-//Create a function that can create a new grid when called by the two game mode and restart buttons. And that gets called for the first time by one of the game mode btns
