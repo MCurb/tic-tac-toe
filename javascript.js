@@ -304,6 +304,39 @@ function restartGame() {
   gridContainer.addEventListener("click", selectModeHandler);
 }
 
+function resetPlayerMode() {
+  resetBoard();
+  updateDOM();
+  resetPlayers();
+  resetAi();
+  divs.forEach((div) => {
+    div.classList.remove("winner-div", "draw");
+  });
+  winnerMessage.classList.remove("winner-message", "tied-message");
+  winnerMessage.textContent = "";
+  playerBtn.classList.remove("active-game");
+  xTurn.classList.add("active-turn");
+  oTurn.classList.remove("active-turn");
+  gridContainer.removeEventListener("click", playersEventHandler);
+
+}
+
+function resetAiMode() {
+  resetBoard();
+  updateDOM();
+  resetPlayers();
+  resetAi();
+  divs.forEach((div) => {
+    div.classList.remove("winner-div", "draw");
+  });
+  winnerMessage.classList.remove("winner-message", "tied-message");
+  winnerMessage.textContent = "";
+  aiBtn.classList.remove("active-game");
+  xTurn.classList.add("active-turn");
+  oTurn.classList.remove("active-turn");
+  gridContainer.removeEventListener("click", aiEventHandler);
+}
+
 /* ================================
    5. EVENT HANDLERS
 ================================ */
@@ -332,6 +365,7 @@ function selectModeHandler(event) {
 
 function clickedBtnHandler(event) {
   if (event.target.closest(".ai-btn")) {
+    resetPlayerMode()
     gridContainer.removeEventListener("click", selectModeHandler);
     gridContainer.removeEventListener("click", playersEventHandler);
     gridContainer.addEventListener("click", aiEventHandler);
@@ -339,6 +373,7 @@ function clickedBtnHandler(event) {
     playerBtn.classList.remove("active-game");
     aiBtn.classList.add("active-game");
   } else if (event.target.closest(".player-btn")) {
+    resetAiMode()
     gridContainer.removeEventListener("click", selectModeHandler);
     gridContainer.removeEventListener("click", aiEventHandler);
     gridContainer.addEventListener("click", playersEventHandler);
