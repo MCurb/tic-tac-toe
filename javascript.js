@@ -1,12 +1,13 @@
 const body = document.querySelector("body");
 const winnerMessage = document.createElement("p");
 const restartBtn = document.querySelector(".restart-btn");
-const aiBtn = document.querySelector(".ai-btn")
-const playerBtn = document.querySelector(".player-btn")
+const aiBtn = document.querySelector(".ai-btn");
+const playerBtn = document.querySelector(".player-btn");
 const divs = document.querySelectorAll(".game-grid div");
 body.insertBefore(winnerMessage, restartBtn);
 const xTurn = document.querySelector(".turn-x");
 const oTurn = document.querySelector(".turn-o");
+
 // Get the players choice and put it in the board array
 const gameBoard = (function () {
   let board = [];
@@ -303,14 +304,16 @@ function clickedBtnHandler(event) {
   if (event.target.closest(".ai-btn")) {
     gridContainer.removeEventListener("click", playersEventHandler);
     gridContainer.addEventListener("click", aiEventHandler);
-    
-    playerBtn.classList.remove("active-game")
-    aiBtn.classList.add("active-game")
+
+    playerBtn.classList.remove("active-game");
+    aiBtn.classList.add("active-game");
   } else if (event.target.closest(".player-btn")) {
     gridContainer.removeEventListener("click", aiEventHandler);
     gridContainer.addEventListener("click", playersEventHandler);
 
-    aiBtn.classList.remove("active-game")
-    playerBtn.classList.add("active-game")
+    aiBtn.classList.remove("active-game");
+    playerBtn.classList.add("active-game");
   }
 }
+
+//Create a function that can create a new grid when called by the two game mode and restart buttons. And that gets called for the first time by one of the game mode btns
