@@ -1,12 +1,24 @@
+/* ================================
+1. DOM SELECTORS
+================================ */
+
 const body = document.querySelector("body");
 const winnerMessage = document.createElement("p");
 const restartBtn = document.querySelector(".restart-btn");
+body.insertBefore(winnerMessage, restartBtn);
+
 const aiBtn = document.querySelector(".ai-btn");
 const playerBtn = document.querySelector(".player-btn");
-const divs = document.querySelectorAll(".game-grid div");
-body.insertBefore(winnerMessage, restartBtn);
+
 const xTurn = document.querySelector(".turn-x");
 const oTurn = document.querySelector(".turn-o");
+
+const gridContainer = document.querySelector(".game-grid");
+const divs = document.querySelectorAll(".game-grid div");
+
+/* ================================
+2. FACTORY FUNCTIONS / MODULES
+================================ */
 
 // Get the players choice and put it in the board array
 const gameBoard = (function () {
@@ -100,49 +112,6 @@ const gameBoard = (function () {
     getGameStatus,
   };
 })();
-
-// Create the player objects
-
-function createPlayer(name, marker) {
-  return { name, marker };
-}
-const player1 = createPlayer("Player 1", "X");
-const player2 = createPlayer("Player 2", "O");
-const human = createPlayer("Human", "X");
-const cpu = createPlayer("AI", "O");
-
-// Work with the closures
-const choices = gameBoard.getChoice;
-const checkWinner = gameBoard.checkWinner;
-const gameWinnerInfo = gameBoard.getWinnerInfo;
-const checkInput = gameBoard.checkInput;
-const gameStatus = gameBoard.getGameStatus;
-
-// Switch player turns
-// function switchTurn(positionChoice) {
-//   let justPlayed = false;
-//   for (let i = 0; i <= 8; i++) {
-//     if (justPlayed === false && gameWinnerInfo() === false) {
-//       do {
-//         choices(
-//           player1.marker,
-//           positionChoice
-//         );
-//         checkWinners(player1.name, player1.marker, i);
-//         justPlayed = true;
-//       } while (checkInput() === false);
-//     } else if (justPlayed === true && gameWinnerInfo() === false) {
-//       do {
-//         choices(
-//           player2.marker,
-//           positionChoice
-//         );
-//         checkWinners(player2.name, player2.marker, i);
-//         justPlayed = false;
-//       } while (checkInput() === false);
-//     }
-//   }
-// };
 
 //Write a function that gets called when a square gets selected
 //It needs to take the position of the square and use it to send it to the fn that will pass the player marker with the position to the board array
@@ -246,13 +215,59 @@ const switchTurnAi = (function () {
   };
 })();
 
+
+/* ================================
+3. PURE LOGIC FUNCTIONS
+================================ */
+
+function createPlayer(name, marker) {
+  return { name, marker };
+}
+
+// Create the player objects
+
+const player1 = createPlayer("Player 1", "X");
+const player2 = createPlayer("Player 2", "O");
+const human = createPlayer("Human", "X");
+const cpu = createPlayer("AI", "O");
+
+// Work with the closures
+
+const choices = gameBoard.getChoice;
+const checkWinner = gameBoard.checkWinner;
+const gameWinnerInfo = gameBoard.getWinnerInfo;
+const checkInput = gameBoard.checkInput;
+const gameStatus = gameBoard.getGameStatus;
+
+/* ================================
+4. DOM UPDATE FUNCTIONS
+================================ */
+
 function updateDOM() {
   for (let i = 0; i <= 8; i++) {
     divs[i].textContent = gameBoard.getBoardContent()[i];
   }
 }
 
-const gridContainer = document.querySelector(".game-grid");
+/* ================================
+   5. EVENT HANDLERS
+================================ */
+
+function clickedBtnHandler(event) {
+  if (event.target.closest(".ai-btn")) {
+    gridContainer.removeEventListener("click", playersEventHandler);
+    gridContainer.addEventListener("click", aiEventHandler);
+
+    playerBtn.classList.remove("active-game");
+    aiBtn.classList.add("active-game");
+  } else if (event.target.closest(".player-btn")) {
+    gridContainer.removeEventListener("click", aiEventHandler);
+    gridContainer.addEventListener("click", playersEventHandler);
+
+    aiBtn.classList.remove("active-game");
+    playerBtn.classList.add("active-game");
+  }
+}
 
 function playersEventHandler(event) {
   if (event.target.matches(".square1")) {
@@ -298,22 +313,33 @@ function aiEventHandler(event) {
   }
 }
 
+/* ================================
+6. EVENT LISTENERS
+================================ */
+
 body.addEventListener("click", clickedBtnHandler);
 
-function clickedBtnHandler(event) {
-  if (event.target.closest(".ai-btn")) {
-    gridContainer.removeEventListener("click", playersEventHandler);
-    gridContainer.addEventListener("click", aiEventHandler);
 
-    playerBtn.classList.remove("active-game");
-    aiBtn.classList.add("active-game");
-  } else if (event.target.closest(".player-btn")) {
-    gridContainer.removeEventListener("click", aiEventHandler);
-    gridContainer.addEventListener("click", playersEventHandler);
+/* ===================================
+7. INITIALIZATION
+=================================== */
 
-    aiBtn.classList.remove("active-game");
-    playerBtn.classList.add("active-game");
-  }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Create a function that can create a new grid when called by the two game mode and restart buttons. And that gets called for the first time by one of the game mode btns
