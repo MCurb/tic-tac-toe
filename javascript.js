@@ -1,6 +1,8 @@
 const body = document.querySelector("body");
 const winnerMessage = document.createElement("p");
 const restartBtn = document.querySelector(".restart-btn");
+const aiBtn = document.querySelector(".ai-btn")
+const playerBtn = document.querySelector(".player-btn")
 const divs = document.querySelectorAll(".game-grid div");
 body.insertBefore(winnerMessage, restartBtn);
 const xTurn = document.querySelector(".turn-x");
@@ -301,8 +303,14 @@ function clickedBtnHandler(event) {
   if (event.target.matches(".ai-btn")) {
     gridContainer.removeEventListener("click", playersEventHandler);
     gridContainer.addEventListener("click", aiEventHandler);
+    
+    playerBtn.classList.remove("active-game")
+    aiBtn.classList.add("active-game")
   } else if (event.target.matches(".player-btn")) {
     gridContainer.removeEventListener("click", aiEventHandler);
     gridContainer.addEventListener("click", playersEventHandler);
+
+    aiBtn.classList.remove("active-game")
+    playerBtn.classList.add("active-game")
   }
 }
