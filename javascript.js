@@ -212,7 +212,7 @@ const switchTurnAi = (function () {
         timesPlayed++;
         checkWinner(human.name, human.marker, timesPlayed);
         justPlayed = true;
-        switchTurnAi(Math.floor(Math.random() * 9));
+        setTimeout(() => switchTurnAi(Math.floor(Math.random() * 9)), 180);
         console.log(timesPlayed);
         console.log(gameBoard.checkInput());
         console.log(justPlayed);
@@ -237,7 +237,7 @@ const switchTurnAi = (function () {
         console.log(justPlayed);
       } else if (gameStatus() === false && gameBoard.checkInput() === false) {
         gameBoard.changeInput();
-        switchTurnAi(Math.floor(Math.random() * 9));
+        setTimeout(() => switchTurnAi(Math.floor(Math.random() * 9)), 180);
       }
     }
   };
