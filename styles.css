@@ -142,11 +142,25 @@ h1 {
   }
 
   .game-grid div:not(.winner-div):active {
-  transform: scale(0.85);
-}
-}
+    transform: scale(0.85);
+  }
 
+  .restart-btn:active {
+    transform: scale(0.93);
+  }
 
+  .ai-btn:hover {
+    background-color: hsl(342, 97%, 71%);
+  }
+
+  .player-btn:hover {
+    background-color: hsl(212, 33%, 38%);
+  }
+
+  .restart-btn:hover {
+    background-color: hsl(342, 97%, 71%);
+  }
+}
 
 .game-grid div:not(.winner-div).active-tap {
   transform: scale(0.85);
@@ -207,10 +221,6 @@ button:hover {
   gap: 8px;
 }
 
-.ai-btn:hover {
-  background-color: hsl(342, 97%, 71%);
-}
-
 .ai-btn:active {
   transform: scale(0.93);
   background-color: hsl(342, 97%, 74%);
@@ -226,10 +236,6 @@ button:hover {
   background-color: hsl(212, 33%, 32%);
   display: grid;
   grid-template-rows: 1fr max-content;
-}
-
-.player-btn:hover {
-  background-color: hsl(212, 33%, 38%);
 }
 
 .player-btn:active {
@@ -248,6 +254,10 @@ button:hover {
 .restart-btn {
   background-color: #fc5185;
   font-size: 16px;
+}
+
+.restart-clicked {
+  transform: scale(0.93);
 }
 
 .switch-turn-container {

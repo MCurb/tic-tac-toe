@@ -318,7 +318,6 @@ function resetPlayerMode() {
   xTurn.classList.add("active-turn");
   oTurn.classList.remove("active-turn");
   gridContainer.removeEventListener("click", playersEventHandler);
-
 }
 
 function resetAiMode() {
@@ -337,20 +336,40 @@ function resetAiMode() {
   gridContainer.removeEventListener("click", aiEventHandler);
 }
 
-function handleTapEffec() {
+function handleTapEffect() {
   divs.forEach((div) => {
     div.addEventListener("touchstart", () => {
-      div.classList.add("active-tap")
-    })
+      div.classList.add("active-tap");
 
-     div.addEventListener("touchend", () => {
-      div.classList.remove("active-tap")
-    })
+      setTimeout(() => {
+        div.classList.remove("active-tap");
+      }, 150);
+    });
 
-     div.addEventListener("touchcancel", () => {
-      div.classList.remove("active-tap")
-    })
-  })
+    div.addEventListener("touchend", () => {
+      div.classList.remove("active-tap");
+    });
+
+    div.addEventListener("touchcancel", () => {
+      div.classList.remove("active-tap");
+    });
+  });
+
+  restartBtn.addEventListener("touchstart", () => {
+    restartBtn.classList.add("restart-clicked");
+    
+    setTimeout(() => {
+      restartBtn.classList.remove("restart-clicked");
+    }, 150);
+  });
+
+  restartBtn.addEventListener("touchend", () => {
+    restartBtn.classList.remove("restart-clicked");
+  });
+
+  restartBtn.addEventListener("touchcancel", () => {
+    restartBtn.classList.remove("restart-clicked");
+  });
 }
 
 /* ================================
@@ -381,7 +400,7 @@ function selectModeHandler(event) {
 
 function clickedBtnHandler(event) {
   if (event.target.closest(".ai-btn")) {
-    resetPlayerMode()
+    resetPlayerMode();
     gridContainer.removeEventListener("click", selectModeHandler);
     gridContainer.removeEventListener("click", playersEventHandler);
     gridContainer.addEventListener("click", aiEventHandler);
@@ -389,7 +408,7 @@ function clickedBtnHandler(event) {
     playerBtn.classList.remove("active-game");
     aiBtn.classList.add("active-game");
   } else if (event.target.closest(".player-btn")) {
-    resetAiMode()
+    resetAiMode();
     gridContainer.removeEventListener("click", selectModeHandler);
     gridContainer.removeEventListener("click", aiEventHandler);
     gridContainer.addEventListener("click", playersEventHandler);
@@ -456,4 +475,4 @@ gridContainer.addEventListener("click", selectModeHandler);
 7. INITIALIZATION
 =================================== */
 
-handleTapEffec()
+handleTapEffect();
