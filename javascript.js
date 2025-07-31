@@ -295,8 +295,8 @@ function restartGame() {
   });
   winnerMessage.classList.remove("winner-message", "tied-message");
   winnerMessage.textContent = "";
-  playerBtn.classList.remove("active-game");
-  aiBtn.classList.remove("active-game");
+  playerBtn.classList.remove("active-mode");
+  aiBtn.classList.remove("active-mode");
   xTurn.classList.add("active-turn");
   oTurn.classList.remove("active-turn");
   gridContainer.removeEventListener("click", aiEventHandler);
@@ -314,7 +314,7 @@ function resetPlayerMode() {
   });
   winnerMessage.classList.remove("winner-message", "tied-message");
   winnerMessage.textContent = "";
-  playerBtn.classList.remove("active-game");
+  playerBtn.classList.remove("active-mode");
   xTurn.classList.add("active-turn");
   oTurn.classList.remove("active-turn");
   gridContainer.removeEventListener("click", playersEventHandler);
@@ -330,7 +330,7 @@ function resetAiMode() {
   });
   winnerMessage.classList.remove("winner-message", "tied-message");
   winnerMessage.textContent = "";
-  aiBtn.classList.remove("active-game");
+  aiBtn.classList.remove("active-mode");
   xTurn.classList.add("active-turn");
   oTurn.classList.remove("active-turn");
   gridContainer.removeEventListener("click", aiEventHandler);
@@ -405,16 +405,16 @@ function clickedBtnHandler(event) {
     gridContainer.removeEventListener("click", playersEventHandler);
     gridContainer.addEventListener("click", aiEventHandler);
 
-    playerBtn.classList.remove("active-game");
-    aiBtn.classList.add("active-game");
+    playerBtn.classList.remove("active-mode");
+    aiBtn.classList.add("active-mode");
   } else if (event.target.closest(".player-btn")) {
     resetAiMode();
     gridContainer.removeEventListener("click", selectModeHandler);
     gridContainer.removeEventListener("click", aiEventHandler);
     gridContainer.addEventListener("click", playersEventHandler);
 
-    aiBtn.classList.remove("active-game");
-    playerBtn.classList.add("active-game");
+    aiBtn.classList.remove("active-mode");
+    playerBtn.classList.add("active-mode");
   } else if (event.target.matches(".restart-btn")) {
     restartGame();
   }

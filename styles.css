@@ -80,129 +80,72 @@ h6 {
   isolation: isolate;
 }
 
+:root {
+  --primary-color: hsl(212, 33%, 31%);
+  --secondary-color: hsl(342, 97%, 65%);
+
+  --primary-color-hover: hsl(212, 33%, 36%);
+  --secondary-color-hover: hsl(342, 97%, 69%);
+
+  --primary-color-active: hsl(212, 33%, 43%);
+  --secondary-color-active: hsl(342, 97%, 74%);
+}
+
 html {
   height: 105vh;
 }
 
+/* LAYOUT */
+
 body {
+  /* Grid / Flex Layout */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 1.25rem;
+
+  /* Box Model */
   height: 100%;
-  background-color: #f8f9fa;
+
+  /* Typography / Visuals */
+  font-family: "Montserrat", "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: black;
-  font-family: "Montserrat";
+  background-color: #f8f9fa;
 }
+
+/* Hero Text */
 
 h1 {
-  color: hsl(212, 33%, 31%);
-  text-shadow: 4px 4px #fc5185;
-  font-size: 56px;
+  font-size: 3.5rem;
+  text-shadow: 0.25rem 0.25rem var(--secondary-color);
+  color: var(--primary-color)
 }
 
-.game-grid {
-  display: grid;
-  grid-template-columns: max-content max-content max-content;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 8px;
-}
+/* Game Mode Buttons */
 
-.game-grid div {
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
-  touch-action: manipulation;
-  width: 108px;
-  height: 108px;
-  font-size: 48px;
-  border-radius: 12px;
-  background-color: hsl(212, 33%, 31%);
-  color: hsl(210, 11%, 91%);
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  will-change: transform;
-  transition: all 0.3s ease;
-}
-
-/* .game-grid div:not(.winner-div, .draw):hover {
-  cursor: pointer;
-  transform: scale(1.08);
-  background-color: hsl(212, 33%, 35%);
-} */
-
-/* Only apply hover effects on devices that actually support hover */
-@media (hover: hover) and (pointer: fine) {
-  .game-grid div:not(.winner-div, .draw):hover {
-    cursor: pointer;
-    transform: scale(1.08);
-    background-color: hsl(212, 33%, 35%);
-  }
-
-  .game-grid div:not(.winner-div):active {
-    transform: scale(0.85);
-  }
-
-  .restart-btn:active {
-    transform: scale(0.93);
-  }
-
-  .ai-btn:hover {
-    background-color: hsl(342, 97%, 71%);
-  }
-
-  .player-btn:hover {
-    background-color: hsl(212, 33%, 38%);
-  }
-
-  .restart-btn:hover {
-    background-color: hsl(342, 97%, 71%);
-  }
-}
-
-.game-grid div:not(.winner-div).active-tap {
-  transform: scale(0.85);
-}
-
-.game-grid .winner-div {
-  background-color: #22c55e;
-  border: none;
-}
-
-.game-grid .draw {
-  background-color: hsl(218, 28%, 55%);
-}
-
-.winner-message {
-  font-size: 20px;
-  font-weight: 700;
-  color: #22c55e;
-}
-
-.tied-message {
-  font-size: 20px;
-  font-weight: 700;
-  color: #4b5563;
-}
-
+/* Layout */
 .buttons-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 60px;
+  column-gap: 3.75rem;
 }
 
+/* Global btn styles */
 button {
+  /* Box Model */
   border: none;
-  padding: 4px 8px;
-  width: 132px;
-  height: 48px;
-  font-weight: 500;
-  font-size: 14px;
-  border-radius: 4px;
-  color: white;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  width: 8.25rem;
+  height: 3rem;
+
+  /* Typography / Visuals */
   font-weight: 800;
+  font-size: 0.875rem;
+  color: white;
+
+  /* Miscellaneous / Interactions */
   will-change: transform;
   transform-origin: center center;
   transition: all 0.2s ease;
@@ -212,94 +155,198 @@ button:hover {
   cursor: pointer;
 }
 
+/* AI Button */
 .ai-btn {
-  background-color: hsl(342, 97%, 65%);
-  padding: 4px 8px;
   display: grid;
   grid-template-columns: max-content max-content;
   place-content: center;
-  gap: 8px;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--secondary-color);
 }
 
 .ai-btn:active {
+  background-color: var(--secondary-color-active);
   transform: scale(0.93);
-  background-color: hsl(342, 97%, 74%);
 }
 
-.active-game {
-  transform: scale(1.05);
-  box-shadow: rgba(50, 50, 93, 0.5) 0px 30px 60px -12px,
-    rgba(0, 0, 0, 0.7) 0px 18px 36px -18px;
-}
-
+/* Player Button */
 .player-btn {
-  background-color: hsl(212, 33%, 32%);
   display: grid;
   grid-template-rows: 1fr max-content;
+  background-color: var(--primary-color)
 }
 
 .player-btn:active {
+  background-color: var(--primary-color-active);
   transform: scale(0.93);
-  background-color: hsl(212, 33%, 43%);
-}
-
-.jump {
-  transform: scale(1.15);
 }
 
 .player-btn img {
   place-self: center;
 }
 
-.restart-btn {
-  background-color: #fc5185;
-  font-size: 16px;
+/* Utilities */
+.active-mode {
+  box-shadow: rgba(50, 50, 93, 0.5) 0px 1.75rem 3.75rem -0.75rem,
+    rgba(0, 0, 0, 0.7) 0px 1.25rem 2.25rem -1.125rem;
+  transform: scale(1.05);
 }
 
-.restart-clicked {
-  transform: scale(0.93);
+.jump {
+  transform: scale(1.15);
 }
 
+/* Switch Turn Indicator */
+
+/* Layout */
 .switch-turn-container {
   display: grid;
   gap: 4px;
 }
 
-.turn-text {
-  font-size: 20px;
-  font-weight: 700;
-}
-
+/* Components */
 .turn-box-container {
   display: flex;
 }
 
+.turn-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
 .turn-x,
 .turn-o {
-  width: 100%;
-  border: 3px solid #364f6b;
-  padding: 12px 20px;
+  border: 0.25rem solid var(--primary-color);
+  padding: 0.75rem 1.25rem;
+
   font-weight: 700;
-  font-size: 20px;
+  font-size: 1.25rem;
   transition: all 0.25s ease;
 }
 
 .turn-x {
   border-right: none;
-  border-radius: 8px 0 0 8px;
+  border-radius: 0.5rem 0 0 0.5rem;
 }
 
 .turn-o {
   border-left: none;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
+/* Utilities */
 .active-turn {
-  background-color: #364f6b;
   color: white;
+  background-color: var(--primary-color);
 }
 
-.stop-turns {
+/* Game Board */
+
+/* Layout */
+.game-grid {
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0.5rem;
+}
+
+/* Components */
+.game-grid div {
+  /* Grid / Flex Layout */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Box Model */
+  width: 6.75rem;
+  height: 6.75rem;
+  border-radius: 0.75rem;
+
+  /* Typography / Visuals */
+  font-size: 3rem;
+  font-weight: 600;
+  color: hsl(210, 11%, 91%);
+  background-color: var(--primary-color);
+
+  /* Miscellaneous / Interactions */
+  -webkit-tap-highlight-color: transparent;
+  will-change: transform;
+  outline: none;
+  touch-action: manipulation;
+  transition: all 0.3s ease;
+}
+
+/* Utilities */
+.game-grid div:not(.winner-div).active-tap {
+  background-color: var(--primary-color-hover);
+  transform: scale(0.85);
+}
+
+.game-grid .winner-div {
   background-color: #22c55e;
-  color: black;
+}
+
+.game-grid .draw {
+  background-color: hsl(218, 28%, 55%);
+}
+
+/* Game Status Info */
+
+/* Utilities */
+.winner-message {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.tied-message {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #4b5563;
+}
+
+/* Restart Btn */
+
+.restart-btn {
+  font-size: 1rem;
+  background-color: var(--secondary-color);
+}
+
+/* Utilities */
+.restart-clicked {
+  background-color: var(--secondary-color-hover);
+  transform: scale(0.93);
+}
+
+/* Media Query */
+
+/* Only apply hover and active effects on devices that actually support it */
+@media (hover: hover) and (pointer: fine) {
+  .ai-btn:hover {
+    background-color: var(--secondary-color-hover);
+  }
+
+  .player-btn:hover {
+    background-color: var(--primary-color-hover);
+  }
+
+  .game-grid div:not(.winner-div, .draw):hover {
+    background-color: var(--primary-color-hover);
+    cursor: pointer;
+    transform: scale(1.08);
+  }
+
+  .game-grid div:not(.winner-div):active {
+    transform: scale(0.85);
+  }
+
+  .restart-btn:active {
+    background-color: var(--secondary-color-active);
+    transform: scale(0.93);
+  }
+
+  .restart-btn:hover {
+    background-color: var(--secondary-color-hover);
+  }
 }
