@@ -20,7 +20,8 @@ const divs = document.querySelectorAll(".game-grid div");
 2. FACTORY FUNCTIONS / MODULES
 ================================ */
 
-// Get the players choice and put it in the board array
+// Get the players choice, check if valid and put it in the board array
+// Check if there's a winner or if game is tied
 const gameBoard = (function () {
   let board = [];
   const winningCombos = [
@@ -36,8 +37,7 @@ const gameBoard = (function () {
   let winner = false;
   let correctInput = true;
   let gameTied = false;
-
-  // Validate users choice
+  // Validate users choice and push it to the board array
   const getChoice = (playerMarker, position) => {
     if (board[position] === undefined) {
       board[position] = playerMarker;
@@ -82,7 +82,7 @@ const gameBoard = (function () {
     }
   };
 
-  const getWinnerInfo = () => {
+  const getWinnerStatus = () => {
     return winner;
   };
 
@@ -112,7 +112,7 @@ const gameBoard = (function () {
   return {
     getChoice,
     checkWinner,
-    getWinnerInfo,
+    getWinnerStatus,
     checkInput,
     getBoardContent,
     changeInput,
@@ -135,9 +135,9 @@ const switchTurnPlayer = (function () {
     if (
       gameBoard.checkInput() &&
       justPlayed === false &&
-      gameBoard.getWinnerInfo() === false
+      gameBoard.getWinnerStatus() === false
     ) {
-      choices(player1.marker, position);
+      makeChoice(player1.marker, position);
       if (gameBoard.checkInput()) {
         oTurn.classList.add("active-turn");
         xTurn.classList.remove("active-turn");
@@ -154,9 +154,9 @@ const switchTurnPlayer = (function () {
     } else if (
       gameBoard.checkInput() &&
       justPlayed &&
-      gameBoard.getWinnerInfo() === false
+      gameBoard.getWinnerStatus() === false
     ) {
-      choices(player2.marker, position);
+      makeChoice(player2.marker, position);
       if (gameBoard.checkInput()) {
         xTurn.classList.add("active-turn");
         oTurn.classList.remove("active-turn");
@@ -188,9 +188,9 @@ const switchTurnAI = (function () {
     if (
       gameBoard.checkInput() &&
       justPlayed === false &&
-      gameBoard.getWinnerInfo() === false
+      gameBoard.getWinnerStatus() === false
     ) {
-      choices(human.marker, position);
+      makeChoice(human.marker, position);
       if (gameBoard.checkInput()) {
         oTurn.classList.add("active-turn");
         xTurn.classList.remove("active-turn");
@@ -198,7 +198,7 @@ const switchTurnAI = (function () {
         timesPlayed++;
         checkWinner(human.name, human.marker, timesPlayed);
         justPlayed = true;
-        setTimeout(() => switchTurnAi(Math.floor(Math.random() * 9)), 180);
+        setTimeout(() => switchAiTurn(Math.floor(Math.random() * 9)), 180);
         console.log(timesPlayed);
         console.log(gameBoard.checkInput());
         console.log(justPlayed);
@@ -208,9 +208,9 @@ const switchTurnAI = (function () {
     } else if (
       gameBoard.checkInput() &&
       justPlayed &&
-      gameBoard.getWinnerInfo() === false
+      gameBoard.getWinnerStatus() === false
     ) {
-      choices(cpu.marker, position);
+      makeChoice(cpu.marker, position);
       if (gameBoard.checkInput()) {
         xTurn.classList.add("active-turn");
         oTurn.classList.remove("active-turn");
@@ -223,7 +223,7 @@ const switchTurnAI = (function () {
         console.log(justPlayed);
       } else if (gameStatus() === false && gameBoard.checkInput() === false) {
         gameBoard.changeInput();
-        setTimeout(() => switchTurnAi(Math.floor(Math.random() * 9)), 180);
+        setTimeout(() => switchAiTurn(Math.floor(Math.random() * 9)), 180);
       }
     }
   };
@@ -255,17 +255,16 @@ const cpu = createPlayer("AI", "O");
 
 // Work with the closures
 
-const choices = gameBoard.getChoice;
+const makeChoice = gameBoard.getChoice;
 const checkWinner = gameBoard.checkWinner;
-const gameWinnerInfo = gameBoard.getWinnerInfo;
 const checkInput = gameBoard.checkInput;
 const gameStatus = gameBoard.getGameStatus;
 const resetBoard = gameBoard.resetBoard;
 
-const switchTurnPlayers = switchTurnPlayer.switchTurn;
+const switchPlayersTurn = switchTurnPlayer.switchTurn;
 const resetPlayers = switchTurnPlayer.reset;
 
-const switchTurnAi = switchTurnAI.switchTurn;
+const switchAiTurn = switchTurnAI.switchTurn;
 const resetAi = switchTurnAI.reset;
 
 /* ================================
@@ -377,24 +376,8 @@ function handleTapEffect() {
 ================================ */
 
 function selectModeHandler(event) {
-  if (event.target.matches(".square1")) {
-    jumpBtns();
-  } else if (event.target.matches(".square2")) {
-    jumpBtns();
-  } else if (event.target.matches(".square3")) {
-    jumpBtns();
-  } else if (event.target.matches(".square4")) {
-    jumpBtns();
-  } else if (event.target.matches(".square5")) {
-    jumpBtns();
-  } else if (event.target.matches(".square6")) {
-    jumpBtns();
-  } else if (event.target.matches(".square7")) {
-    jumpBtns();
-  } else if (event.target.matches(".square8")) {
-    jumpBtns();
-  } else if (event.target.matches(".square9")) {
-    jumpBtns();
+  if (event.target.matches(".square")) {
+    jumpBtns()
   }
 }
 
@@ -421,47 +404,17 @@ function clickedBtnHandler(event) {
 }
 
 function playersEventHandler(event) {
-  if (event.target.matches(".square1")) {
-    switchTurnPlayers(0);
-  } else if (event.target.matches(".square2")) {
-    switchTurnPlayers(1);
-  } else if (event.target.matches(".square3")) {
-    switchTurnPlayers(2);
-  } else if (event.target.matches(".square4")) {
-    switchTurnPlayers(3);
-  } else if (event.target.matches(".square5")) {
-    switchTurnPlayers(4);
-  } else if (event.target.matches(".square6")) {
-    switchTurnPlayers(5);
-  } else if (event.target.matches(".square7")) {
-    switchTurnPlayers(6);
-  } else if (event.target.matches(".square8")) {
-    switchTurnPlayers(7);
-  } else if (event.target.matches(".square9")) {
-    switchTurnPlayers(8);
+  if (event.target.matches(".square")) {
+    const index = parseInt(event.target.dataset.index, 10)
+    switchPlayersTurn(index)
   }
 }
 
 function aiEventHandler(event) {
-  if (event.target.matches(".square1")) {
-    switchTurnAi(0);
-  } else if (event.target.matches(".square2")) {
-    switchTurnAi(1);
-  } else if (event.target.matches(".square3")) {
-    switchTurnAi(2);
-  } else if (event.target.matches(".square4")) {
-    switchTurnAi(3);
-  } else if (event.target.matches(".square5")) {
-    switchTurnAi(4);
-  } else if (event.target.matches(".square6")) {
-    switchTurnAi(5);
-  } else if (event.target.matches(".square7")) {
-    switchTurnAi(6);
-  } else if (event.target.matches(".square8")) {
-    switchTurnAi(7);
-  } else if (event.target.matches(".square9")) {
-    switchTurnAi(8);
-  }
+ if (event.target.matches(".square")) {
+  const index = parseInt(event.target.dataset.index, 10)
+  switchAiTurn(index)
+ }
 }
 
 /* ================================
