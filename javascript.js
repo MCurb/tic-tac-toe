@@ -77,21 +77,13 @@ const gameBoard = (function () {
     }
   };
 
-  const getWinnerStatus = () => {
-    return winner;
-  };
+  const getWinnerStatus = () => winner;
 
-  const getGameStatus = () => {
-    return gameTied;
-  };
+  const getGameStatus = () => gameTied;
 
-  const checkInput = () => {
-    return correctInput;
-  };
+  const checkInput = () => correctInput;
 
-  const getBoardContent = () => {
-    return board;
-  };
+  const getBoardContent = () => board;
 
   const changeInput = () => {
     correctInput = true;
