@@ -37,20 +37,15 @@ const gameBoard = (function () {
   let winner = false;
   let correctInput = true;
   let gameTied = false;
+
   // Validate users choice and push it to the board array
-  const getChoice = (playerMarker, position) => {
+  const updateBoard = (playerMarker, position) => {
     if (board[position] === undefined) {
       board[position] = playerMarker;
       correctInput = true;
     } else if (board[position] !== undefined) {
-      console.log("Ocuppied Position, Try again");
       correctInput = false;
-    } else {
-      console.log("Something's wrong");
-      return;
     }
-
-    console.log(board);
   };
 
   // Check if the game is tied or declare a game winner
@@ -110,7 +105,7 @@ const gameBoard = (function () {
   };
 
   return {
-    getChoice,
+    updateBoard,
     checkWinner,
     getWinnerStatus,
     checkInput,
@@ -121,13 +116,9 @@ const gameBoard = (function () {
   };
 })();
 
-//Write a function that gets called when a square gets selected
-//It needs to take the position of the square and use it to send it to the fn that will pass the player marker with the position to the board array
-//Then the fn updateDOM will get called to print the new marker
+// This is like the game controller
 
-// If an occupied square gets selected alert the user, and do nothing, waiting for another choice
-
-const switchTurnPlayer = (function () {
+const switchPlayerTurn = (function () {
   let justPlayed = false;
   let timesPlayed = 0;
   xTurn.classList.add("active-turn");
@@ -137,7 +128,7 @@ const switchTurnPlayer = (function () {
       justPlayed === false &&
       gameBoard.getWinnerStatus() === false
     ) {
-      makeChoice(player1.marker, position);
+      updateBoard(player1.marker, position);
       if (gameBoard.checkInput()) {
         oTurn.classList.add("active-turn");
         xTurn.classList.remove("active-turn");
@@ -145,9 +136,6 @@ const switchTurnPlayer = (function () {
         timesPlayed++;
         checkWinner(player1.name, player1.marker, timesPlayed);
         justPlayed = true;
-        console.log(timesPlayed);
-        console.log(gameBoard.checkInput());
-        console.log(justPlayed);
       } else {
         gameBoard.changeInput();
       }
@@ -156,7 +144,7 @@ const switchTurnPlayer = (function () {
       justPlayed &&
       gameBoard.getWinnerStatus() === false
     ) {
-      makeChoice(player2.marker, position);
+      updateBoard(player2.marker, position);
       if (gameBoard.checkInput()) {
         xTurn.classList.add("active-turn");
         oTurn.classList.remove("active-turn");
@@ -164,9 +152,6 @@ const switchTurnPlayer = (function () {
         timesPlayed++;
         checkWinner(player2.name, player2.marker, timesPlayed);
         justPlayed = false;
-        console.log(timesPlayed);
-        console.log(gameBoard.checkInput());
-        console.log(justPlayed);
       } else {
         gameBoard.changeInput();
       }
@@ -180,7 +165,8 @@ const switchTurnPlayer = (function () {
   return { switchTurn, reset };
 })();
 
-const switchTurnAI = (function () {
+// Game controller for AI game mode
+const switchAiTurn = (function () {
   let justPlayed = false;
   let timesPlayed = 0;
   xTurn.classList.add("active-turn");
@@ -190,7 +176,7 @@ const switchTurnAI = (function () {
       justPlayed === false &&
       gameBoard.getWinnerStatus() === false
     ) {
-      makeChoice(human.marker, position);
+      updateBoard(human.marker, position);
       if (gameBoard.checkInput()) {
         oTurn.classList.add("active-turn");
         xTurn.classList.remove("active-turn");
@@ -198,10 +184,7 @@ const switchTurnAI = (function () {
         timesPlayed++;
         checkWinner(human.name, human.marker, timesPlayed);
         justPlayed = true;
-        setTimeout(() => switchAiTurn(Math.floor(Math.random() * 9)), 180);
-        console.log(timesPlayed);
-        console.log(gameBoard.checkInput());
-        console.log(justPlayed);
+        setTimeout(() => switchAiTurns(Math.floor(Math.random() * 9)), 180);
       } else {
         gameBoard.changeInput();
       }
@@ -210,7 +193,7 @@ const switchTurnAI = (function () {
       justPlayed &&
       gameBoard.getWinnerStatus() === false
     ) {
-      makeChoice(cpu.marker, position);
+      updateBoard(cpu.marker, position);
       if (gameBoard.checkInput()) {
         xTurn.classList.add("active-turn");
         oTurn.classList.remove("active-turn");
@@ -218,12 +201,9 @@ const switchTurnAI = (function () {
         timesPlayed++;
         checkWinner(cpu.name, cpu.marker, timesPlayed);
         justPlayed = false;
-        console.log(timesPlayed);
-        console.log(gameBoard.checkInput());
-        console.log(justPlayed);
       } else if (gameStatus() === false && gameBoard.checkInput() === false) {
         gameBoard.changeInput();
-        setTimeout(() => switchAiTurn(Math.floor(Math.random() * 9)), 180);
+        setTimeout(() => switchAiTurns(Math.floor(Math.random() * 9)), 180);
       }
     }
   };
@@ -255,17 +235,17 @@ const cpu = createPlayer("AI", "O");
 
 // Work with the closures
 
-const makeChoice = gameBoard.getChoice;
+const updateBoard = gameBoard.updateBoard;
 const checkWinner = gameBoard.checkWinner;
 const checkInput = gameBoard.checkInput;
 const gameStatus = gameBoard.getGameStatus;
 const resetBoard = gameBoard.resetBoard;
 
-const switchPlayersTurn = switchTurnPlayer.switchTurn;
-const resetPlayers = switchTurnPlayer.reset;
+const switchPlayersTurn = switchPlayerTurn.switchTurn;
+const resetPlayers = switchPlayerTurn.reset;
 
-const switchAiTurn = switchTurnAI.switchTurn;
-const resetAi = switchTurnAI.reset;
+const switchAiTurns = switchAiTurn.switchTurn;
+const resetAi = switchAiTurn.reset;
 
 /* ================================
 4. DOM UPDATE FUNCTIONS
@@ -284,6 +264,7 @@ function jumpBtns() {
   setTimeout(() => playerBtn.classList.remove("jump"), 500);
 }
 
+// Restart everything
 function restartGame() {
   resetBoard();
   updateDOM();
@@ -302,6 +283,8 @@ function restartGame() {
   gridContainer.removeEventListener("click", playersEventHandler);
   gridContainer.addEventListener("click", selectModeHandler);
 }
+
+//Partially restart the game when the mode switches
 
 function resetPlayerMode() {
   resetBoard();
@@ -335,7 +318,9 @@ function resetAiMode() {
   gridContainer.removeEventListener("click", aiEventHandler);
 }
 
-function handleTapEffect() {
+
+// Stop the hover and active effect from getting suck in mobile browsers
+const handleTapEffect = (function () {
   divs.forEach((div) => {
     div.addEventListener("touchstart", () => {
       div.classList.add("active-tap");
@@ -369,7 +354,7 @@ function handleTapEffect() {
   restartBtn.addEventListener("touchcancel", () => {
     restartBtn.classList.remove("restart-clicked");
   });
-}
+})();
 
 /* ================================
    5. EVENT HANDLERS
@@ -381,6 +366,7 @@ function selectModeHandler(event) {
   }
 }
 
+// Handler for the three buttons: 
 function clickedBtnHandler(event) {
   if (event.target.closest(".ai-btn")) {
     resetPlayerMode();
@@ -403,6 +389,8 @@ function clickedBtnHandler(event) {
   }
 }
 
+// Take the square position and call the "Game controller" function
+
 function playersEventHandler(event) {
   if (event.target.matches(".square")) {
     const index = parseInt(event.target.dataset.index, 10)
@@ -413,7 +401,7 @@ function playersEventHandler(event) {
 function aiEventHandler(event) {
  if (event.target.matches(".square")) {
   const index = parseInt(event.target.dataset.index, 10)
-  switchAiTurn(index)
+  switchAiTurns(index)
  }
 }
 
@@ -423,9 +411,3 @@ function aiEventHandler(event) {
 
 body.addEventListener("click", clickedBtnHandler);
 gridContainer.addEventListener("click", selectModeHandler);
-
-/* ===================================
-7. INITIALIZATION
-=================================== */
-
-handleTapEffect();
